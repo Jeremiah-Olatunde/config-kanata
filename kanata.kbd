@@ -1,5 +1,6 @@
 (defcfg 
   process-unmapped-keys no
+  danger-enable-cmd yes
 )
 
 (defvar
@@ -18,18 +19,38 @@
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
+(defalias
+  lsb (layer-switch base)
+  lsk (layer-switch komorebi)
+)
+
 (deflayer base
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
   tab  q    w    f    p    z    XX   j    l    u    y    XX   XX   XX
-  XX   a    r    s    t    g    XX   m    n    e    i    o    XX
+  @lsk a    r    s    t    g    XX   m    n    e    i    o    XX
   XX   x    c    d    @sym v    b    k    h    .    /    XX
-  XX   XX   lalt           spc            ralt XX   XX
+  XX   XX   XX             XX             XX   XX   XX
 )
 
 (deflayer symbol-one-shot
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
   tab  q    w    f    p    z    XX   S-,  [    S-[  S-9  XX   S-'  XX
-  XX   a    r    s    t    g    XX   ;    -    =    S-;  XX   XX
+  @lsb a    r    s    t    g    XX   ;    -    =    S-;  XX   XX
   XX   x    c    d    @sym v    b    S-/  S--  ,    S-\  XX
-  XX   XX   lalt           spc            ralt XX   XX
+  XX   XX   XX             XX             XX   XX   XX
+)
+
+(defalias
+  m (cmd komorebic focus-workspace 0)
+  n (cmd komorebic focus-workspace 1)
+  e (cmd komorebic focus-workspace 2)
+  i (cmd komorebic focus-workspace 3)
+)
+
+(deflayer komorebi
+  `    1    2    3    4    5    6    7    8    9    0    -    =    XX
+  tab  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @lsk XX   XX   XX   XX   XX   XX   @m   @n   @e   @i   XX   XX
+  XX   XX   XX   XX   @sym XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX           XX               XX   XX   XX
 )
