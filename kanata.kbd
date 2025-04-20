@@ -4,21 +4,32 @@
 )
 
 (defvar
- one-shot-timeout 1000
+ one-shot-timeout 1000 
 )
 
 (defalias
   lbs (layer-switch base)
-  lkm (layer-switch komorebi)
-  lso (one-shot $one-shot-timeout (layer-while-held symbol-one-shot))
+  lka (layer-switch komorebi-a)
+  lkb (layer-while-held komorebi-b)
+  lsb (one-shot $one-shot-timeout (layer-while-held symbol-b))
   lml (layer-while-held mod-left)
   lmr (layer-while-held mod-right)
 
   ;; komerebi
-  m (cmd komorebic focus-workspace 0)
-  n (cmd komorebic focus-workspace 1)
-  e (cmd komorebic focus-workspace 2)
-  i (cmd komorebic focus-workspace 3)
+  f0 (cmd komorebic focus-workspace 0)
+  f1 (cmd komorebic focus-workspace 1)
+  f2 (cmd komorebic focus-workspace 2)
+  f3 (cmd komorebic focus-workspace 3)
+
+  fu (cmd komorebic focus up)
+  fd (cmd komorebic focus down)
+  fl (cmd komorebic focus left)
+  fr (cmd komorebic focus right)
+
+  m0 (cmd komorebic move-to-workspace 0)
+  m1 (cmd komorebic move-to-workspace 1)
+  m2 (cmd komorebic move-to-workspace 2)
+  m3 (cmd komorebic move-to-workspace 3)
 )
 
 (defsrc
@@ -32,40 +43,47 @@
 (deflayer base
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
   tab  q    w    f    p    z    XX   j    l    u    y    XX   XX   XX
-  @lkm a    r    s    t    g    XX   m    n    e    i    o    XX
-  XX   x    c    d    @lso v    b    k    h    .    /    XX
-  XX   XX   XX             spc            XX   XX   XX
+  @lka a    r    s    t    g    XX   m    n    e    i    o    XX
+  XX   x    c    d    @lsb v    b    k    h    .    /    XX
+  XX   XX   @lml           spc            @lmr XX   XX
 )
 
-(deflayer symbol-one-shot
+(deflayer symbol-b
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
-  tab  q    w    f    p    z    XX   S-,  [    S-[  S-9  XX   S-'  XX
-  @lmk a    r    s    t    g    XX   ;    -    =    S-;  XX   XX
-  XX   x    c    d    @lso v    b    S-/  S--  ,    S-\  XX
+  XX   XX   XX   XX   XX   XX   XX   S-,  [    S-[  S-9  XX   S-'  XX
+  XX   XX   XX   XX   XX   XX   XX   ;    -    =    S-;  XX   XX
+  XX   XX   XX   XX   XX   XX   XX   S-/  S--  ,    S-\  XX
   XX   XX   XX             XX             XX   XX   XX
 )
 
-(deflayer komorebi
+(deflayer komorebi-a
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
   tab  XX   XX   XX   XX   XX   XX   down rght XX   XX   XX   XX   XX
-  @lkm XX   XX   XX   XX   XX   XX   @m   @n   @e   @i   XX   XX
-  XX   XX   XX   XX   @lso XX   XX   up   lft  XX   XX   XX
-  XX   XX   XX           XX               XX   XX   XX
+  XX   XX   XX   XX   @lkb XX   XX   @f0  @f1  @f2  @f3  XX   XX
+  XX   XX   XX   XX   @lsb XX   XX   up   lft  XX   XX   XX
+  XX   XX   XX             @lbs           XX   XX   XX
+)
+
+(deflayer komorebi-b
+  `    1    2    3    4    5    6    7    8    9    0    -    =    XX
+  tab  XX   XX   XX   XX   XX   XX   @fd  @fr  XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   @m0  @m1  @m2  @m3  XX   XX
+  XX   XX   XX   XX   @lsb XX   XX   @fu  @fl  XX   XX   XX
+  XX   XX   XX             @lbs           XX   XX   XX
 )
 
 (deflayer mod-left 
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
-  tab  q    bcsp ret  p    z    XX   j    l    u    y    XX   XX   XX
-  @lkm lmet lalt lctl lsft g    XX   m    n    e    i    o    XX
-  XX   x    c    d    @lso v    b    k    h    .    /    XX
-  XX   XX   XX             spc            XX   XX   XX
+  tab  q    bspc ret  p    z    XX   j    l    u    y    XX   XX   XX
+  caps lmet lalt lctl lsft g    XX   m    n    e    i    o    XX
+  XX   x    c    d    @lsb v    b    k    h    .    /    XX
+  XX   XX   XX             XX             XX   XX   XX
 )
 
 (deflayer mod-right 
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
   tab  q    w    f    p    z    XX   j    l    esc  y    XX   XX   XX
-  @lkm a    r    s    t    g    XX   m    rsft rctl ralt rmet XX
-  XX   x    c    d    @lso v    b    k    h    .    /    XX
-  XX   XX   XX             spc            XX   XX   XX
+  caps a    r    s    t    g    XX   m    rsft rctl ralt rmet XX
+  XX   x    c    d    @lsb v    b    k    h    .    /    XX
+  XX   XX   XX             XX             XX   XX   XX
 )
-
