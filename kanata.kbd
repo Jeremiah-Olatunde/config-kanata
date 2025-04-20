@@ -1,6 +1,6 @@
 (defcfg 
-  process-unmapped-keys no
   danger-enable-cmd yes
+  process-unmapped-keys no
 )
 
 (defvar
@@ -8,7 +8,17 @@
 )
 
 (defalias
-  sym (one-shot $one-shot-timeout (layer-while-held symbol-one-shot))
+  lbs (layer-switch base)
+  lkm (layer-switch komorebi)
+  lso (one-shot $one-shot-timeout (layer-while-held symbol-one-shot))
+  lml (layer-while-held mod-left)
+  lmr (layer-while-held mod-right)
+
+  ;; komerebi
+  m (cmd komorebic focus-workspace 0)
+  n (cmd komorebic focus-workspace 1)
+  e (cmd komorebic focus-workspace 2)
+  i (cmd komorebic focus-workspace 3)
 )
 
 (defsrc
@@ -19,38 +29,43 @@
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
-(defalias
-  lsb (layer-switch base)
-  lsk (layer-switch komorebi)
-)
-
 (deflayer base
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
   tab  q    w    f    p    z    XX   j    l    u    y    XX   XX   XX
-  @lsk a    r    s    t    g    XX   m    n    e    i    o    XX
-  XX   x    c    d    @sym v    b    k    h    .    /    XX
-  XX   XX   XX             XX             XX   XX   XX
+  @lkm a    r    s    t    g    XX   m    n    e    i    o    XX
+  XX   x    c    d    @lso v    b    k    h    .    /    XX
+  XX   XX   XX             spc            XX   XX   XX
 )
 
 (deflayer symbol-one-shot
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
   tab  q    w    f    p    z    XX   S-,  [    S-[  S-9  XX   S-'  XX
-  @lsb a    r    s    t    g    XX   ;    -    =    S-;  XX   XX
-  XX   x    c    d    @sym v    b    S-/  S--  ,    S-\  XX
+  @lmk a    r    s    t    g    XX   ;    -    =    S-;  XX   XX
+  XX   x    c    d    @lso v    b    S-/  S--  ,    S-\  XX
   XX   XX   XX             XX             XX   XX   XX
-)
-
-(defalias
-  m (cmd komorebic focus-workspace 0)
-  n (cmd komorebic focus-workspace 1)
-  e (cmd komorebic focus-workspace 2)
-  i (cmd komorebic focus-workspace 3)
 )
 
 (deflayer komorebi
   `    1    2    3    4    5    6    7    8    9    0    -    =    XX
-  tab  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
-  @lsk XX   XX   XX   XX   XX   XX   @m   @n   @e   @i   XX   XX
-  XX   XX   XX   XX   @sym XX   XX   XX   XX   XX   XX   XX
+  tab  XX   XX   XX   XX   XX   XX   down rght XX   XX   XX   XX   XX
+  @lkm XX   XX   XX   XX   XX   XX   @m   @n   @e   @i   XX   XX
+  XX   XX   XX   XX   @lso XX   XX   up   lft  XX   XX   XX
   XX   XX   XX           XX               XX   XX   XX
 )
+
+(deflayer mod-left 
+  `    1    2    3    4    5    6    7    8    9    0    -    =    XX
+  tab  q    bcsp ret  p    z    XX   j    l    u    y    XX   XX   XX
+  @lkm lmet lalt lctl lsft g    XX   m    n    e    i    o    XX
+  XX   x    c    d    @lso v    b    k    h    .    /    XX
+  XX   XX   XX             spc            XX   XX   XX
+)
+
+(deflayer mod-right 
+  `    1    2    3    4    5    6    7    8    9    0    -    =    XX
+  tab  q    w    f    p    z    XX   j    l    esc  y    XX   XX   XX
+  @lkm a    r    s    t    g    XX   m    rsft rctl ralt rmet XX
+  XX   x    c    d    @lso v    b    k    h    .    /    XX
+  XX   XX   XX             spc            XX   XX   XX
+)
+
